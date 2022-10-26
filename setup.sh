@@ -12,9 +12,10 @@ if ! [ -x "$(command -v ffmpeg)" ]; then
 fi
 
 
-if ! [ -x "$(command -v python)" ]; then
+if ! [ -x "$(command -v python3)" ]; then
   echo "install python"
   brew install python
 fi
 
-pip install -r requirments.txt
+echo "install pip requirements"
+pip3 install -r requirements.txt

@@ -1,6 +1,4 @@
 from youtubesearchpython import VideosSearch
-import youtube_dl
-import pafy
 import pytube as pt
 from pathlib import Path
 from moviepy.editor import *
@@ -54,7 +52,7 @@ def listSongsInPlaylist(playlistURL):
     for p in play_list:
         print(p)
         song_list.append(Song(name="",url=p))
-    return play_list.title,song_list
+    return play_list.initial_data['header']['playlistHeaderRenderer']['title']['simpleText'],song_list
 
 
 if __name__ == '__main__':
@@ -62,6 +60,6 @@ if __name__ == '__main__':
     playlist_url = input("youtube playlist url:")
     playlistName,songs = listSongsInPlaylist(playlist_url)
     for s in songs:
-        s.download("./"+playlistName)
+        s.download("./playlists/"+playlistName)
     # s = Song("paradise ryan carveo")
     # s.download(output="./songs/")
