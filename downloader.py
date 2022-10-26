@@ -12,12 +12,19 @@ def search_for_song(name):
 
 
 class Song:
-    def __init__(self, name):
-        vid, title, cover_image_url, u = search_for_song(name)
-        self.title = title
-        self.url = u
-        self.cover_image_url = cover_image_url
-        self.video_id = vid
+    def __init__(self, name,url=None):
+        if url is not None:
+            self.url = url
+            yt = pt.YouTube(self.url)
+            self.title = yt.title
+            self.video_id = yt.video_id
+            self.cover_image_url = yt.thumbnail_url
+        else:
+            vid, title, cover_image_url, u = search_for_song(name)
+            self.title = title
+            self.url = u
+            self.cover_image_url = cover_image_url
+            self.video_id = vid
 
     def to_string(self):
         return """
@@ -41,6 +48,20 @@ class Song:
         os.remove(out_file)
 
 
+def listSongsInPlaylist(playlistURL):
+    play_list = pt.Playlist(playlistURL)
+    song_list = []
+    for p in play_list:
+        print(p)
+        song_list.append(Song(name="",url=p))
+    return song_list
+
+
 if __name__ == '__main__':
-    s = Song("paradise ryan carveo")
-    s.download(output="./songs/")
+    file_location = input("enter filepath:")
+    playlist_url = input("youtube playlist url:")
+    songs = listSongsInPlaylist(playlist_url)
+    for s in songs:
+        s.download(file_location)
+    # s = Song("paradise ryan carveo")
+    # s.download(output="./songs/")
