@@ -56,10 +56,7 @@ def listSongsInPlaylist(playlistURL):
 
 
 if __name__ == '__main__':
-    #file_location = input("enter filepath:")
     playlist_url = input("youtube playlist url:")
     playlistName,songs = listSongsInPlaylist(playlist_url)
     for s in songs:
         s.download("./playlists/"+playlistName)
-    # s = Song("paradise ryan carveo")
-    # s.download(output="./songs/")
