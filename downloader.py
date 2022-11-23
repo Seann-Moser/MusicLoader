@@ -2,7 +2,7 @@ from youtubesearchpython import VideosSearch
 import pytube as pt
 from pathlib import Path
 from moviepy.editor import *
-
+import csv
 def search_for_song(name):
     video_search = VideosSearch(name + " official audio", limit=4)
     for v in video_search.result()['result']:
@@ -56,7 +56,29 @@ def listSongsInPlaylist(playlistURL):
 
 
 if __name__ == '__main__':
-    playlist_url = input("youtube playlist url:")
-    playlistName,songs = listSongsInPlaylist(playlist_url)
-    for s in songs:
-        s.download("./playlists/"+playlistName)
+
+
+    # opening the CSV file
+    with open('swim.csv', mode='r') as file:
+
+        # reading the CSV file
+        csvFile = csv.reader(file)
+        headers = {}
+        songList = []
+        # displaying the contents of the CSV file
+        for lines in csvFile:
+            if len(headers) == 0:
+                for (i,d) in enumerate(lines):
+                    headers[d] = i
+            else:
+                id,title,thumbnails,url = search_for_song("{0} - {1}".format(headers["Track name"], headers["Artist name"]))
+                print("Adding song - {0} - {1}".format(title,url))
+                songList.append(Song(name="", url=url))
+
+        for s in songList:
+            s.download("./playlists/"+"swim")
+
+    # playlist_url = input("youtube playlist url:")
+    # playlistName,songs = listSongsInPlaylist(playlist_url)
+    # for s in songs:
+    #     s.download("./playlists/"+playlistName)
